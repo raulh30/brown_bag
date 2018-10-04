@@ -3,36 +3,34 @@ package dao;
 import entity.Employee;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 public class EmployeeDAOImpl extends HibernateDaoSupport implements EmployeeDAO {
 
 
     public void save(Employee emp) {
 
-        getHibernateTemplate().save(emp);
+        getSessionFactory().getCurrentSession().save(emp);
     }
 
     public void update(Employee emp) {
 
-        getHibernateTemplate().update(emp);
+        getSessionFactory().getCurrentSession().update(emp);
     }
 
     public void delete(Employee emp) {
 
-        getHibernateTemplate().delete(emp);
+        getSessionFactory().getCurrentSession().delete(emp);
     }
 
     public Employee getById(long id) {
 
-        List employees = getHibernateTemplate().find("from Employee where id = ?", id);
+        Employee emp= getSessionFactory().getCurrentSession().get(Employee.class, id);
 
-        if (!CollectionUtils.isEmpty(employees)) {
-            return (Employee) employees.get(0);
-        }
-
-        return null;
+        return emp;
 
     }
 }

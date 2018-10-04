@@ -6,7 +6,7 @@
     <class name="entity.Employee" table="EMPLOYEE">
         <id name="id" type="long">
             <column name="ID" />
-            <generator class="identity" />
+            <generator class="increment" />
         </id>
         <property name="firstName" type="string">
             <column name="FIRST_NAME" not-null="true" />
