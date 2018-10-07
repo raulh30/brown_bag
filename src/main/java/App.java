@@ -12,11 +12,11 @@ public class App {
         EmployeeDAO dao = (EmployeeDAO) ctx.getBean("EmployeeDao");
 
         Employee me = new Employee();
-        me.setFirstName("Raul");
-        me.setLastName("Hidalgo");
+        me.setFirstName("John");
+        me.setLastName("Doe");
         dao.save(me);
 
-        System.out.print("Sucess!");
+        System.out.println("Sucess!");
 
 
     }

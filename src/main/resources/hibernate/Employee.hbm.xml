@@ -3,7 +3,7 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="entity.Employee" table="EMPLOYEE">
+    <class name="entity.Employee" table="employee">
         <id name="id" type="long">
             <column name="ID" />
             <generator class="increment" />

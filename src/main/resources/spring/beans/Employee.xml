@@ -5,7 +5,18 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
     <!-- Employee Data Access Object -->
     <bean id="EmployeeDao" class="dao.EmployeeDAOImpl" >
+        <constructor-arg ref="OracleEmployeeDao"/>
+        <constructor-arg ref="PostgresEmployeeDao"/>
+    </bean>
+
+    <!-- Employee Data Access Object -->
+    <bean id="OracleEmployeeDao" class="dao.OracleEmployeeDAOImpl" >
         <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+
+    <!-- Employee Data Access Object -->
+    <bean id="PostgresEmployeeDao" class="dao.PostgreEmployeeDAOImpl" >
+        <property name="sessionFactory" ref="sessionFactoryPostgre"></property>
     </bean>
 
 </beans>

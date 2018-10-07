@@ -17,4 +17,12 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
         <property name="password" value="${jdbc.password}" />
     </bean>
 
+    <bean id="dataSourcePostgre"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${jdbc.postgres.driverClassName}" />
+        <property name="url" value="${jdbc.postgres.url}" />
+        <property name="username" value="${jdbc.postgres.username}" />
+        <property name="password" value="${jdbc.postgres.password}" />
+    </bean>
+
 </beans>

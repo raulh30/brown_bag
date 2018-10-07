@@ -7,30 +7,57 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Transactional
-public class EmployeeDAOImpl extends HibernateDaoSupport implements EmployeeDAO {
+public class EmployeeDAOImpl implements EmployeeDAO {
+
+    private final boolean READ_FROM_POSTGRE = false;
+    private final boolean DUAL_WRITE = true;
+
+    private OracleEmployeeDAOImpl oracleEmployeeDAO;
+    private PostgreEmployeeDAOImpl postgreEmployeeDAO;
+
+    public EmployeeDAOImpl(OracleEmployeeDAOImpl oracleEmployeeDAO, PostgreEmployeeDAOImpl postgreEmployeeDAO) {
+        this.oracleEmployeeDAO = oracleEmployeeDAO;
+        this.postgreEmployeeDAO = postgreEmployeeDAO;
+    }
 
 
     public void save(Employee emp) {
 
-        getSessionFactory().getCurrentSession().save(emp);
+        this.oracleEmployeeDAO.save(emp);
+
+        if (DUAL_WRITE) {
+            this.postgreEmployeeDAO.save(emp);
+        }
+
     }
 
     public void update(Employee emp) {
 
-        getSessionFactory().getCurrentSession().update(emp);
+        this.oracleEmployeeDAO.update(emp);
+
+        if (DUAL_WRITE) {
+            this.postgreEmployeeDAO.update(emp);
+        }
+
     }
 
     public void delete(Employee emp) {
 
-        getSessionFactory().getCurrentSession().delete(emp);
+        this.oracleEmployeeDAO.delete(emp);
+
+        if (DUAL_WRITE) {
+            this.postgreEmployeeDAO.delete(emp);
+        }
+
     }
 
     public Employee getById(long id) {
 
-        Employee emp= getSessionFactory().getCurrentSession().get(Employee.class, id);
-
-        return emp;
+        if (READ_FROM_POSTGRE) {
+            return this.postgreEmployeeDAO.getById(id);
+        } else {
+            return this.oracleEmployeeDAO.getById(id);
+        }
 
     }
 }
